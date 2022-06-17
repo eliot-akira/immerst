@@ -1,6 +1,6 @@
 # Immerst
 
-Modular immutable state management
+Modular immutable state management with a React hook
 
 ## Usage
 
@@ -34,7 +34,7 @@ import { useStore } from './store'
 function Component() {
 
   // Subscribe to all state changes
-  const { count, store } = useStore()
+  const { count, increment } = useStore()
 
   return <button onClick={() => increment()}>{count}</button>
 }
@@ -45,7 +45,7 @@ function Component() {
 Subscribe to store property changes for more efficient rendering of the component. Pass a "selector" function to `useStore`, that will select properties of the store instance.
 
 ```js
-const [count, incremement] = useStore(store => [
+const [count, increment] = useStore(store => [
   store.count,
   store.increment
 ])

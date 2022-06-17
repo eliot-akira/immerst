@@ -1,9 +1,33 @@
 {
   "name": "immerst",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Modular immutable state management",
-  "main": "index.js",
-  "scripts": {},
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
+  "scripts": {
+    "type": " tsc --emitDeclarationOnly --outDir lib",
+    "build": "rimraf lib && node build.js && cp package.json lib && cp readme.md lib && cp LICENSE lib",
+    "release": "npm run build && cd lib && npm publish --access public"
+  },
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "immer": "^9.0.15"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.45",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.3"
+  },
+  "peerDependencies": {
+    "react": "*"
+  }
 }
