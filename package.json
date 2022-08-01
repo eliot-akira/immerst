@@ -1,29 +1,45 @@
 {
   "name": "immerst",
-  "version": "0.0.2",
-  "description": "Modular immutable state management",
-  "main": "./index.js",
-  "module": "./index.mjs",
-  "types": "./index.d.ts",
+  "version": "0.0.3",
+  "description": "Modular immutable state management with React Hooks support",
+  "author": "",
+  "license": "MIT",
   "scripts": {
-    "type": " tsc --emitDeclarationOnly --outDir lib",
-    "build": "rimraf lib && node build.js && cp package.json lib && cp readme.md lib && cp LICENSE lib",
+    "build": "npm-run-all -l clean copy format -p build:cjs build:esm type",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel src --extensions '.ts' --out-dir 'lib/cjs' --source-maps",
+    "build:esm": "cross-env BABEL_ENV=esmUnbundled babel src --extensions '.ts' --out-dir 'lib/esm' --source-maps",
+    "clean": "rimraf lib && mkdirp lib",
+    "copy": "cp package.json lib && cp readme.md lib && cp license lib",
+    "format": "prettier --no-config --no-semi --single-quote --write \"src/**/*.ts\"",
+    "type": " tsc --emitDeclarationOnly --outDir lib/types",
     "release": "npm run build && cd lib && npm publish --access public"
   },
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "types": "./types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./index.mjs",
-      "require": "./index.js"
+      "import": "./esm/index.js",
+      "require": "./cjs/index.js"
+    },
+    "./react": {
+      "import": "./esm/react.js",
+      "require": "./cjs/react.js"
     },
     "./package.json": "./package.json"
   },
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "immer": "^9.0.15"
   },
   "devDependencies": {
-    "esbuild": "^0.14.45",
+    "@babel/cli": "^7.18.9",
+    "@babel/core": "^7.18.9",
+    "@babel/preset-env": "^7.18.9",
+    "@babel/preset-typescript": "^7.18.6",
+    "@types/react": "^18.0.15",
+    "cross-env": "^7.0.3",
+    "mkdirp": "^1.0.4",
+    "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.3"
   },
