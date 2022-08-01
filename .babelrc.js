@@ -1,5 +1,6 @@
 const shared = {
-  presets: ['@babel/typescript']
+  presets: ['@babel/typescript'],
+  plugins: ['babel-plugin-add-import-extension']
 }
 
 module.exports = {
